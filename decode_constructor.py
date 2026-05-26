@@ -9,6 +9,7 @@ Example:
 """
 
 import sys
+
 from eth_abi import decode
 
 
@@ -71,7 +72,7 @@ def main():
         print("DECODED CONSTRUCTOR ARGUMENTS")
         print("=" * 70)
 
-        for i, (value, param_type) in enumerate(zip(decoded_args, param_types)):
+        for i, (value, param_type) in enumerate(zip(decoded_args, param_types, strict=False)):
             formatted_value = format_result(value, param_type)
             print(f"Parameter {i + 1} ({param_type}): {formatted_value}")
 
