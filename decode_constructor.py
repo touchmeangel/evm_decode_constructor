@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Practical utility: Decode constructor arguments from Etherscan input data
 
