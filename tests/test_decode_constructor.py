@@ -2,7 +2,6 @@
 Minimal pytest tests for decode_constructor.py
 """
 
-import pytest
 from decode_constructor import decode_constructor_args, format_result
 
 
