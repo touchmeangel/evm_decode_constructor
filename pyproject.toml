@@ -20,7 +20,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0.0",
-    "pytest-cov>=4.1.0",
+    "pytest-cov>=6.0.0",
     "pytest-asyncio>=0.23.0",
     "pytest-mock>=3.12.0",
     "ruff>=0.5.0",
@@ -30,11 +30,10 @@ dev = [
 ]
 
 [project.scripts]
-evm-decode-constructor = "evm_decode_constructor:main"
+evm_decode_constructor = "evm_decode_constructor:main"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["evm_decode_constructor*"]
+[tool.setuptools]
+py-modules = ["evm_decode_constructor"]
 
 [tool.ruff]
 line-length = 88

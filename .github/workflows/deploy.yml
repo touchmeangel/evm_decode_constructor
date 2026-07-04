@@ -36,7 +36,10 @@ jobs:
       - name: Tests
         env:
           PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
-        run: pytest tests
+        run: |
+          python -m pytest \
+            -p pytest_cov \
+            tests
 
       - uses: codecov/codecov-action@v5
         with:
