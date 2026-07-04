@@ -55,9 +55,10 @@ def format_result(value, param_type):
 
 def main():
     if len(sys.argv) < 3:
-        print("Usage: python decode_constructor.py <input_data> <param_types>")
+        print("Usage:")
+        print("  evm_decode_constructor <creation_input> <constructor_types>")
         print("\nExample:")
-        print('  python decode_constructor.py "0x6080604..." "address,uint256"')
+        print('  evm_decode_constructor "0x6080604..." "address,uint256"')
         print("\nSupported types: address, uint8, uint256, int256, bool, bytes32, etc.")
         print("Note: For dynamic types (string, arrays), decoding is more complex")
         return

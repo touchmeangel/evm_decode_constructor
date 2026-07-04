@@ -2,7 +2,7 @@
 Minimal pytest tests for decode_constructor.py
 """
 
-from decode_constructor import decode_constructor_args, format_result
+from evm_decode_constructor import decode_constructor_args, format_result
 
 
 def test_decode_constructor_args_with_0x_prefix():

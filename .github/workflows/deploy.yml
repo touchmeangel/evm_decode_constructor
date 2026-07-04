@@ -1,67 +1,41 @@
-name: CI/CD Pipeline
+name: CI
 
 on:
   pull_request:
-    branches: [main]
   push:
     branches: [main]
 
 jobs:
-  quality-checks:
+  quality:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.11"
+          cache: "pip"
 
-      - name: Install dependencies
+      - name: Install package
         run: |
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
 
-      - name: Ruff - Lint & Format Check
+      - name: Ruff
         run: |
           ruff check .
           ruff format --check .
 
-      - name: Bandit - Security Scan
-        run: bandit -r . -f json -o bandit-report.json || true
+      - name: Bandit
+        run: bandit -r .
 
-      - name: MyPy - Type Check
-        run: mypy . --ignore-missing-imports || true
+      - name: MyPy
+        run: mypy .
 
-      - name: Run Tests with Coverage
-        run: pytest --cov --junitxml=junit.xml
+      - name: Tests
+        run: pytest
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Upload test results to Codecov
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-  docker-deploy:
-    needs: quality-checks
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        
-      - name: Docker Login
-        run: echo "${{ secrets.DOCKER_PSWD }}" | docker login -u "${{ secrets.DOCKER_NAME }}" --password-stdin
-
-      - name: Build and Push
-        run: |
-          docker build . -t ${{ secrets.DOCKER_NAME }}/${{ vars.IMAGE_NAME }}:latest
-          docker push ${{ secrets.DOCKER_NAME }}/${{ vars.IMAGE_NAME }}:latest
