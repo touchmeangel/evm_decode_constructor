@@ -28,7 +28,7 @@ jobs:
           ruff format --check .
 
       - name: Bandit
-        run: bandit -r .
+        run: bandit -c pyproject.toml -r .
 
       - name: MyPy
         run: mypy .
