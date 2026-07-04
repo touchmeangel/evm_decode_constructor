@@ -34,7 +34,9 @@ jobs:
         run: mypy .
 
       - name: Tests
-        run: pytest
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
+        run: pytest tests
 
       - uses: codecov/codecov-action@v5
         with:
